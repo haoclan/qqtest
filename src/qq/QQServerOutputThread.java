@@ -13,7 +13,7 @@ import qq.QQServer.Cliententy;
 public class QQServerOutputThread extends Thread
 {
 
-	private  ArrayList<Cliententy> al;
+	public  ArrayList<Cliententy> al;
 
 	public QQServerOutputThread(ArrayList<Cliententy> al)
 	{

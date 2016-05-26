@@ -1,5 +1,7 @@
 package qq;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,43 +11,53 @@ import java.net.Socket;
 public class QQClientOutputThread extends Thread
 {
 	QQClient qqClient;
+	Myawttest myawttest;//这次构造的时候把这个对象传过来。看看能在这里直接控制按钮的输入吗
 	
-	public QQClientOutputThread( QQClient qqClient)
+	public QQClientOutputThread( QQClient qqClient,Myawttest myawttest)
 	{
-		// TODO Auto-generated constructor stub
+		
 		this.qqClient=qqClient;
+		this.myawttest=myawttest;
 	}
 
 	@Override
 	public void run()
 	{
-		// TODO Auto-generated method stub
-		try
+		myawttest.buttonsend.addActionListener(new ActionListener()  //发送信息是不是需要多线程啊？貌似不用吧
 		{
-			OutputStream os = qqClient.socket.getOutputStream();
 			
-			while(true)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
-				//输入的格式是什么？  System.in可以用 bufferreader，字符流流过滤流包装。这个字符流的构造函数需要字符流，InputStreamReader
-				//这里是关键
-				BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
-				
-				String line=reader.readLine();
-				
-				//这里可以使用父线程的，如果不行的话，就使用 继承父类的，就可以调用父类的属性了
-				line=qqClient.name+"@"+qqClient.localip+":"+line;
 				
 				
-				
-				os.write(line.getBytes());
+				/*
+				try
+				{
+					String output=myawttest.textsend.getText();
+					OutputStream os = qqClient.socket.getOutputStream();
+					BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));				
+					String line=reader.readLine();				
+					//这里可以使用父线程的，如果不行的话，就使用 继承父类的，就可以调用父类的属性了
+					line=qqClient.name+"@"+qqClient.localip+":"+line;
+					os.write(line.getBytes());
+					
+					myawttest.textsend.setText("");
+					
+					
+				} catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				*/
+
 				
 			}
-			
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		});
+		
+		// TODO Auto-generated method stub
+		
 		
 
 		
